@@ -12,13 +12,45 @@
 //}
 
 
-/////정적변수 Static///////
-//정적변수는 전역변수처럼 선언될때 단 한번만 초기화된다. 
+///////정적변수 Static///////
+////정적변수는 전역변수처럼 선언될때 단 한번만 초기화된다. 
 void TestFunc(void)
 {
 	static int nData = 10;
 	printf("%d\n", nData++);
 }
+
+////정적, 전역 변수의 문제점
+////'동시성' 을 지원하기 어렵다는 문+제
+////동시성은 병렬처리와 직결 되고 병렬처리는 성능과 직결된다.
+////그러므로 정적변수를 사용하는 일으 ㄴ신중하게 생각해야한다.
+//
+///////////////////////////////////////////////////임베디드, 하드웨어////////////////////////
+//// 임베디드, 하드웨어를 사용할 것이 아니면 신경 안써도 된다.
+//// 문법상 이런것들이 있다는 것이다.
+////variable03
+//
+//int main(int argc, char* argv[])
+//{
+//	register int i = 0; //레지스터 메모리를 사용
+//	printf("%d\n", i);
+//	printf("%p\n", &i);
+//	//Error : 레지스터 변수에 &가 있습니다.
+//
+//	return 0;
+//}
+
+
+
+
+
+
+
+
+
+
+
+
 
 int TestFunc2()
 {
@@ -34,64 +66,69 @@ int TestFunc2()
 }
 int main(int argc, char* argv[])
 {
-	//static을 선언하지 않고 함수 호출시 값 = 10 10 10 
-	//함수 스코프가 닫히면서 값이 초기화
+//	//static을 선언하지 않고 함수 호출시 값 = 10 10 10 
+//	//함수 스코프가 닫히면서 값이 초기화
 	TestFunc();
 	TestFunc();
 	TestFunc();
-	//but, 스태틱 선언시
-	//값이 올라간다.
-
-	//static이라고 썼을시 전역변수를 쓴것과 똑같다. 
-	//전역변수와 차이점
-	// 만약 TestFunc()안에 static선언시 접근성이 {}안으로 제한된다. 
-	
-
-	//int* pnData;
-	//해석 순서
-	//1. *pnData - 포인터 변수가 된다. 포인터가 가르키는 대상의 형식은 2. int
-	//2. int
-
-	//다차원 배열 > 배열의 배열, 배열 = 같은 형식의 자료가 여럿이 동시에 있는것
-
-	//char aList[3][12] = { "Hell", "Heaven", "Home" };
-	//해석 순서
-	//1. aList[3] = 무엇인가 담겨있는것이 3개있다.
-	//2. 요소형식 = char[12]
-	//TIP : aList[3] = 포인터로 바꿔주면된다.
-
-	////ptrtoarray
-	////다차원 배열 
-	//char astrList[2][12] = { "Hello", "World" };
-	////char* *pstrList = astrList;
-	//char(*pstrList)[12] = astrList;
-
-	//puts(pstrList[0]);
-	//puts(pstrList[1]);
-
-	//char aListUser[3][12] = {
-	//"철수", "길동", "영희" };
-
-	//PrintUser(aListUser);
-
-
-
-	//auto키워드는 안쓰면 auto 이다
-
-	//fm대로 쓰면 아래처럼 쓴다.
-
-	/*auto int aList[3] = { 10,20,30 };
-	auto int i = 0;
-
-	for (i = 0; i < 3; i++)
-	{
-		printf("%d\t", aList[i]);
-	}*/
-
-	//22장 20.26분
-	
-	
-
-
+//	//but, 스태틱 선언시
+//	//값이 올라간다.
+//
+//	//static이라고 썼을시 전역변수를 쓴것과 똑같다. 
+//	//전역변수와 차이점
+//	// 만약 TestFunc()안에 static선언시 접근성이 {}안으로 제한된다. 
+//	
+//
+//	//int* pnData;
+//	//해석 순서
+//	//1. *pnData - 포인터 변수가 된다. 포인터가 가르키는 대상의 형식은 2. int
+//	//2. int
+//
+//	//다차원 배열 > 배열의 배열, 배열 = 같은 형식의 자료가 여럿이 동시에 있는것
+//
+//	//char aList[3][12] = { "Hell", "Heaven", "Home" };
+//	//해석 순서
+//	//1. aList[3] = 무엇인가 담겨있는것이 3개있다.
+//	//2. 요소형식 = char[12]
+//	//TIP : aList[3] = 포인터로 바꿔주면된다.
+//
+//	////ptrtoarray
+//	////다차원 배열 
+//	char astrList[2][12] = { "Hello", "World" };
+//	//char* *pstrList = astrList;
+//	 
+//	char(*pstrList)[12] = astrList;
+//
+//	puts(pstrList[0]);
+//	puts(pstrList[1]);	
+//
+//	//astrList[2][12] = { "C", "D" };
+//	//puts(pstrList[0]);
+//	//puts(pstrList[1]);
+//
+//	//char aListUser[3][12] = {
+//	//"철수", "길동", "영희" };
+//
+//	//PrintUser(aListUser);
+//
+//
+//
+//	//auto키워드는 안쓰면 auto 이다
+//
+//	//fm대로 쓰면 아래처럼 쓴다.
+//
+//	/*auto int aList[3] = { 10,20,30 };
+//	auto int i = 0;
+//
+//	for (i = 0; i < 3; i++)
+//	{
+//		printf("%d\t", aList[i]);
+//	}*/
+//
+//	//22장 20.26분
+//	
+//	
+//
+//
 	return 0;
 }
